@@ -64,7 +64,7 @@ export const Projects: React.FC = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           <AnimatePresence mode="popLayout">
-            {data.projects.map((project, i) => (
+            {data.projects.map((project) => (
               <motion.div
                 key={`project-${project.id}`}
                 layout
