@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# LoreJourney: A Temporal Portfolio Experience
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Cinematic Portfolio Preview](https://github.com/LakshAgrawal28/Portfolio/raw/main/app/public/assets/photos/20241111_154255(1).jpg)
 
-Currently, two official plugins are available:
+**LoreJourney** is an immersive, high-fidelity portfolio platform designed to tell a story through time. It transcends the traditional "scroll-through" portfolio by offering a cinematic traversal of four distinct eras, each with its own bespoke design system, typography, and mood.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ⏳ The Eras
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🏛️ The 1800s: The Classical Archive
+- **Aesthetic**: Aged parchment, serif typography, and ink-bleed effects.
+- **Experience**: A journey through the foundations of craft and tradition.
 
-## Expanding the ESLint configuration
+### 📻 The 1900s: The Industrial Forge
+- **Aesthetic**: Brutalist layouts, grain textures, and typewriter-inspired elements.
+- **Experience**: Focusing on the rise of modernism and early engineering.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🏙️ The Present: The Modern Minimalist
+- **Aesthetic**: Sleek dark mode, vibrant glassmorphism, and fluid animations.
+- **Experience**: The current state of high-end web development and digital craft.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🚀 The Future: The Galactic Frontier
+- **Aesthetic**: Holographic UI, neon gradients, and 3D warp-speed transitions.
+- **Experience**: A speculative look at what lies beyond the digital horizon.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠️ Technology Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+LoreJourney is built with a focus on performance, aesthetics, and smooth interactivity:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Core**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite 6](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) & [Anime.js](https://animejs.com/)
+- **Visuals**: [Three.js](https://threejs.org/) for cinematic 3D effects
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 🧩 Architectural Highlights
+
+### 🚄 Timeline Engine
+A custom-built state management system that synchronizes era-specific assets, fonts, and logic on the fly during "Era Jumps".
+
+### 🎢 Cinematic Transitions
+Uses sticky-image reveals and 3D perspective shifts to create a sense of deep spatial movement as the user navigates through time.
+
+### 📦 Dynamic Data Architecture
+Projects and life events are categorized into temporal datasets, ensuring data integrity while maintaining era-specific storytelling.
+
+---
+
+## 🚀 Getting Started
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/LakshAgrawal28/Portfolio.git
+   ```
+2. **Install dependencies**:
+   ```bash
+   cd app
+   npm install
+   ```
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+*Designed and Developed with ❤️ by [Laksh Agrawal](https://github.com/LakshAgrawal28)*
