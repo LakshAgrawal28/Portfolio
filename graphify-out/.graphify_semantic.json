@@ -1,0 +1,24 @@
+﻿{
+  "nodes": [
+    {"id": "index_html", "label": "Portfolio Homepage", "file_type": "document", "source_file": "app/index.html"},
+    {"id": "readme_md", "label": "Project README", "file_type": "document", "source_file": "app/README.md"},
+    {"id": "resume_pdf", "label": "Laksh Agrawal Resume", "file_type": "paper", "source_file": "app/Laksh Resume.pdf"},
+    {"id": "favicon_svg", "label": "Site Favicon", "file_type": "image", "source_file": "app/public/favicon.svg"},
+    {"id": "icons_svg", "label": "UI Icons", "file_type": "image", "source_file": "app/public/icons.svg"},
+    {"id": "leviosa_project", "label": "Leviosa Project", "file_type": "document", "source_file": "app/Laksh Resume.pdf"},
+    {"id": "consilium_project", "label": "Consilium Project", "file_type": "document", "source_file": "app/Laksh Resume.pdf"},
+    {"id": "nsut_university", "label": "NSUT Delhi", "file_type": "document", "source_file": "app/Laksh Resume.pdf"},
+    {"id": "photo_2024", "label": "Photo June 2024", "file_type": "image", "source_file": "app/public/assets/photos/20240602_130757 (1)[.jpg"},
+    {"id": "photo_2025", "label": "Photo Oct 2025", "file_type": "image", "source_file": "app/public/assets/photos/20251012_172943(1).jpg"}
+  ],
+  "edges": [
+    {"source": "index_html", "target": "favicon_svg", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "app/index.html"},
+    {"source": "resume_pdf", "target": "leviosa_project", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "app/Laksh Resume.pdf"},
+    {"source": "resume_pdf", "target": "consilium_project", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "app/Laksh Resume.pdf"},
+    {"source": "resume_pdf", "target": "nsut_university", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "app/Laksh Resume.pdf"},
+    {"source": "index_html", "target": "nsut_university", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "app/index.html"}
+  ],
+  "hyperedges": [],
+  "input_tokens": 1500,
+  "output_tokens": 500
+}

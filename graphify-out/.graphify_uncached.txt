@@ -1,0 +1,24 @@
+app\src\AppContent.tsx
+app\src\components\Contact.tsx
+app\src\components\EraJumpOverlay.tsx
+app\src\components\Hero.tsx
+app\src\components\LoreJourney.tsx
+app\src\components\Navigation.tsx
+app\src\components\Projects.tsx
+app\src\components\Skills.tsx
+app\src\data\loreData.ts
+app\src\data\types.ts
+app\src\data\eras\1800s.ts
+app\src\data\eras\1900s.ts
+app\src\data\eras\future.ts
+app\src\data\eras\present.ts
+app\index.html
+app\README.md
+app\Laksh Resume.pdf
+app\public\favicon.svg
+app\public\icons.svg
+app\public\assets\photos\20240602_130757 (1)[.jpg
+app\public\assets\photos\20241111_154255(1).jpg
+app\public\assets\photos\20251012_172943(1).jpg
+app\public\assets\photos\IMG_20220627_173957_328.jpg
+app\public\assets\photos\IMG_20231227_155735_827.jpg
