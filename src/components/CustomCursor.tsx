@@ -17,11 +17,14 @@ export const CustomCursor: React.FC = () => {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
+      const target = e.target as HTMLElement | null;
+      const isClickable = target?.closest('button, a, input, [role="button"]');
+      setIsPointer(!!isClickable);
     };
 
-    const checkPointer = () => {
-      const hoveredElement = document.elementFromPoint(cursorX.get(), cursorY.get());
-      const isClickable = hoveredElement?.closest('button, a, input, [role="button"]');
+    const checkPointer = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const isClickable = target?.closest('button, a, input, [role="button"]');
       setIsPointer(!!isClickable);
     };
 
@@ -79,7 +82,7 @@ export const CustomCursor: React.FC = () => {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden lg:block"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] show-custom-cursor"
         style={{
           x: springX,
           y: springY,
@@ -108,7 +111,7 @@ export const CustomCursor: React.FC = () => {
       {/* Trailing effect for future */}
       {era === 'future' && (
         <motion.div
-          className="fixed top-0 left-0 pointer-events-none z-[9998] hidden lg:block w-4 h-4 rounded-full bg-accent/20 blur-sm"
+          className="fixed top-0 left-0 pointer-events-none z-[9998] show-custom-cursor w-4 h-4 rounded-full bg-accent/20 blur-sm"
           style={{
             x: springX,
             y: springY,

@@ -325,8 +325,14 @@
   .clip-path-polygon {
     clip-path: polygon(0% 15%, 15% 0%, 100% 0%, 100% 85%, 85% 100%, 15% 100%, 0% 85%);
   }
+  .show-custom-cursor {
+    display: none !important;
+  }
 
   @media (hover: hover) and (pointer: fine) {
+    .show-custom-cursor {
+      display: block !important;
+    }
     .hide-cursor-on-desktop {
       cursor: none !important;
     }

@@ -1,10 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type Era = '1800s' | '1900s' | 'present' | 'future';
+export type TransitionSpeed = 'slow' | 'fast';
+
+const jumpTiming: Record<TransitionSpeed, { cover: number; hold: number; exitClear: number }> = {
+  slow: { cover: 1500, hold: 1050, exitClear: 920 },
+  fast: { cover: 900, hold: 450, exitClear: 700 },
+};
 
 interface TimelineContextType {
   era: Era;
   setEra: (era: Era) => void;
+  transitionSpeed: TransitionSpeed;
+  setTransitionSpeed: (speed: TransitionSpeed) => void;
   isTransitioning: boolean;
   prevEra: Era;
   nextEra: Era | null;
@@ -23,6 +31,10 @@ export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [prevEra, setPrevEra] = useState<Era>(era);
   const [nextEra, setNextEra] = useState<Era | null>(null);
+  const [transitionSpeed, setTransitionSpeedState] = useState<TransitionSpeed>(() => {
+    const saved = localStorage.getItem('chronos-transition-speed') as TransitionSpeed;
+    return saved === 'fast' ? 'fast' : 'slow';
+  });
 
   // Sync to text attributes/classes on the document root for CSS variables
   useEffect(() => {
@@ -30,26 +42,40 @@ export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem('chronos-era', era);
   }, [era]);
 
+  useEffect(() => {
+    localStorage.setItem('chronos-transition-speed', transitionSpeed);
+  }, [transitionSpeed]);
+
+  const setTransitionSpeed = (speed: TransitionSpeed) => {
+    if (!isTransitioning) {
+      setTransitionSpeedState(speed);
+    }
+  };
+
   const triggerJump = (targetEra: Era) => {
     if (targetEra === era || isTransitioning) return;
+    const timing = jumpTiming[transitionSpeed];
     
     setPrevEra(era);
     setNextEra(targetEra);
     setIsTransitioning(true);
     
-    // Let entrance animation play for 600ms (covering the screen), then switch
+    // Swap the era only after the curtain has fully covered the page.
     setTimeout(() => {
       setEraState(targetEra);
-      // Let exit animation stay/play for another 800ms before unmounting
+
       setTimeout(() => {
         setIsTransitioning(false);
-        setNextEra(null);
-      }, 800);
-    }, 600);
+
+        setTimeout(() => {
+          setNextEra(null);
+        }, timing.exitClear);
+      }, timing.hold);
+    }, timing.cover);
   };
 
   return (
-    <TimelineContext.Provider value={{ era, setEra: setEraState, isTransitioning, prevEra, nextEra, triggerJump }}>
+    <TimelineContext.Provider value={{ era, setEra: setEraState, transitionSpeed, setTransitionSpeed, isTransitioning, prevEra, nextEra, triggerJump }}>
       {children}
     </TimelineContext.Provider>
   );

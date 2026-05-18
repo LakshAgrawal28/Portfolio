@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion, useScroll, AnimatePresence } from 'framer-motion';
 import { useTimeline } from '../contexts/TimelineContext';
-import { Info } from 'lucide-react';
+import { Gauge, Info } from 'lucide-react';
 import type { Era } from '../contexts/TimelineContext';
 import { timelineData } from '../data/timelineData';
 
 export const Navigation: React.FC = () => {
-  const { era, triggerJump } = useTimeline();
+  const { era, triggerJump, transitionSpeed, setTransitionSpeed, isTransitioning } = useTimeline();
   const { scrollYProgress } = useScroll();
   const [showInfo, setShowInfo] = useState(false);
   const data = timelineData[era];
@@ -60,20 +60,40 @@ export const Navigation: React.FC = () => {
       {/* Era Switcher Hub */}
       <div className="z-20 fixed bottom-6 left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 flex flex-col items-center pointer-events-auto">
         {/* The Dock */}
-        <div className="flex items-center gap-1 rounded-full border border-white/15 bg-black/80 p-1.5 backdrop-blur-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+        <div className="flex max-w-[calc(100vw-12px)] items-center gap-1 rounded-full border border-white/15 bg-black/80 p-1.5 backdrop-blur-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
           {eras.map((e) => (
             <motion.button
               key={e}
               onClick={() => triggerJump(e)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-3 sm:px-4 py-1.5 rounded-full text-[10px] font-retro tracking-widest transition-all duration-500
+              className={`px-2 py-1.5 rounded-full text-[9px] font-retro tracking-widest transition-all duration-500 sm:px-4 sm:text-[10px]
                 ${era === e ? 'bg-white text-black font-bold shadow-[0_0_15px_rgba(255,255,255,0.5)]' : 'text-white/40 hover:text-white'}
               `}
             >
               {timelineData[e].label}
             </motion.button>
           ))}
+
+          <div className="w-[1px] h-4 bg-white/20 mx-1" />
+
+          <motion.button
+            onClick={() => setTransitionSpeed(transitionSpeed === 'slow' ? 'fast' : 'slow')}
+            whileHover={{ scale: isTransitioning ? 1 : 1.04 }}
+            whileTap={{ scale: isTransitioning ? 1 : 0.96 }}
+            disabled={isTransitioning}
+            className={`flex h-9 w-9 items-center justify-center gap-1.5 rounded-full border font-retro text-[9px] uppercase tracking-widest transition-all duration-300 sm:h-10 sm:w-auto sm:px-3
+              ${transitionSpeed === 'fast'
+                ? 'border-accent/45 bg-accent/12 text-accent shadow-[0_0_18px_rgba(99,102,241,0.24)]'
+                : 'border-white/12 bg-white/[0.04] text-white/60 hover:border-white/25 hover:bg-white/[0.08] hover:text-white'}
+              ${isTransitioning ? 'opacity-50' : ''}
+            `}
+            aria-label={`Transition speed: ${transitionSpeed}`}
+            title={`Transition speed: ${transitionSpeed}`}
+          >
+            <Gauge size={14} strokeWidth={2.2} />
+            <span className="hidden sm:inline">{transitionSpeed}</span>
+          </motion.button>
 
           <div className="w-[1px] h-4 bg-white/20 mx-1" />
 
