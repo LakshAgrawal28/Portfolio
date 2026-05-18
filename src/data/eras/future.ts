@@ -9,26 +9,18 @@ export const eraFuture: EraData = {
     role: "Quantum Archivist / Void-Scribe",
     image: "/assets/photos/20240602_130757 (1)[.jpg",
   },
-  journey: {
-    bio: "Ascended from the primitive binary schools of Earth (NSUT), I now manage the Quantum Flux (8.9 Q-CGPA). My existence is dedicated to the synthesis of organic travel and synthetic intelligence across the star systems.",
-    milestones: [
-      { year: "3024", title: "Singularity at NSUT-Prime", description: "Merged consciousness with the core logic of the Milky Way." },
-      { year: "3027", title: "Project: Neural-Wave", description: "Controlled an entire nebula's orbit using only synaptic impulses." }
-    ]
-  },
   skills: [
-    { category: "Quantum Ops", items: ["Qubit-Script", "Light-Speed JS", "Neural-Graphing"] },
-    { category: "Stellar Infrastructure", items: ["Interdimensional CSS", "Anti-Matter React", "Wormhole Git"] }
+    { category: "Holographic Interfaces", items: ["React-Flux", "Next-Dimensional JS", "Tailwind-Mesh", "Holo-Three", "Framer-Warp"] },
+    { category: "Stellar Infrastructure", items: ["Node-Singularity", "Express-Matter", "Mongo-Void", "Postgre-Stars", "C++ Quantum"] },
+    { category: "Neural Prophecy", items: ["Python-Mind", "Optical-Synapse", "Media-Link", "Tensor-Core"] }
   ],
   uiStrings: {
     contactButton: "Neural Sync",
     workTitle: "Quantum Artifacts",
-    journeyTitle: "The Void Chronology",
     skillsTitle: "Technical Augmentations",
     viewProject: "Enter Simulation",
     nav: {
       work: "Artifacts",
-      about: "Void-Log",
       skills: "Augments",
       contact: "Sync"
     },

@@ -9,9 +9,9 @@ export const Contact: React.FC = () => {
   const data = timelineData[era];
 
   const contactOptions = [
-    { icon: <Mail />, label: data.uiStrings.emailLabel, val: "laksh.nsut@gmail.com", href: "mailto:laksh.nsut@gmail.com" },
-    { icon: <Terminal />, label: data.uiStrings.githubLabel, val: "github.com/laksh", href: "https://github.com/laksh" },
-    { icon: <Link />, label: data.uiStrings.linkedinLabel, val: "linkedin.com/in/laksh", href: "https://linkedin.com/in/laksh" }
+    { icon: <Mail />, label: data.uiStrings.emailLabel, val: "laksh.agrawal.ug24@nsut.ac.in", href: "https://mail.google.com/mail/?view=cm&fs=1&to=laksh.agrawal.ug24@nsut.ac.in" },
+    { icon: <Terminal />, label: data.uiStrings.githubLabel, val: "github.com/LakshAgrawal28", href: "https://github.com/LakshAgrawal28" },
+    { icon: <Link />, label: data.uiStrings.linkedinLabel, val: "linkedin.com/in/laksh-agrawal-873598324", href: "https://linkedin.com/in/laksh-agrawal-873598324" }
   ];
 
   return (

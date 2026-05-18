@@ -9,13 +9,6 @@ export const eraPresent: EraData = {
     role: "Full-Stack Magician / Coder",
     image: "/assets/photos/20241111_154255(1).jpg",
   },
-  journey: {
-    bio: "I'm a Developer at NSUT Delhi (CGPA: 8.9) with a passion for creating interfaces that feel alive. My philosophy is simple: write world-class code, travel the planet, and ensure I'm having a blast every single day.",
-    milestones: [
-      { year: "2023", title: "NSUT Engineering", description: "Started my journey in Computer Science and Engineering at Netaji Subhas University of Technology." },
-      { year: "2024", title: "Open Source Contributor", description: "Began contributing to high-impact projects and building modern web ecosystems." }
-    ]
-  },
   skills: [
     { category: "Frontend Mastery", items: ["React.js", "Next.js", "Tailwind CSS", "Three.js", "Framer Motion"] },
     { category: "Backend & Systems", items: ["Node.js", "Express", "MongoDB", "PostgreSQL", "C++ (DSA)"] },
@@ -24,12 +17,10 @@ export const eraPresent: EraData = {
   uiStrings: {
     contactButton: "Let's Connect",
     workTitle: "Featured Projects",
-    journeyTitle: "The Professional Path",
     skillsTitle: "Core Competencies",
     viewProject: "Launch Demo",
     nav: {
       work: "Projects",
-      about: "About",
       skills: "Skills",
       contact: "Contact"
     },

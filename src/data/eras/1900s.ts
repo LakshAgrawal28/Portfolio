@@ -9,26 +9,18 @@ export const era1900s: EraData = {
     role: "The Digital Rebel",
     image: "/assets/photos/20251012_172943(1).jpg",
   },
-  journey: {
-    bio: "I spent my nights in the basement of the Computer Lab at NSUT, surviving on caffeine and the hum of vacuum tubes. I managed to maintain a high-level Priority Queue (8.9 CGPA) while building the first digital interfaces for the next generation.",
-    milestones: [
-      { year: "1988", title: "Mainframe Access Granted", description: "Entered the NSUT Computing Division to study Data Structures." },
-      { year: "1991", title: "Project: Bit-Slinger", description: "Developed low-latency hand-tracking for retro gaming consoles." }
-    ]
-  },
   skills: [
-    { category: "Assembly & Logic", items: ["C with Pointers", "C++ Turbo", "Python Scripter"] },
-    { category: "Dev Terminals", items: ["React Term", "CSS CRT", "Node.js Core"] }
+    { category: "Display Interfaces", items: ["React Term", "Next.js Framework", "CSS CRT", "3D Wireframes", "Framer Pixels"] },
+    { category: "Mainframe Core", items: ["Node.js Core", "Express API", "Mongo Database", "SQL Server", "C++ Assembly"] },
+    { category: "Machine Intelligence", items: ["Python Scripter", "Optical CV", "Media Pipe", "Tensor Flow"] }
   ],
   uiStrings: {
     contactButton: "Dial Bulletin Board",
     workTitle: "Digital Prototypes",
-    journeyTitle: "Mainframe History",
     skillsTitle: "Hardware Specs",
     viewProject: "Execute program.exe",
     nav: {
       work: "Programs",
-      about: "Logs",
       skills: "Hardware",
       contact: "Dial-up"
     },

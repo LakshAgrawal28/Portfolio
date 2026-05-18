@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTimeline } from '../contexts/TimelineContext';
 import { timelineData } from '../data/timelineData';
-
 import { cn } from '../utils/cn';
 
 export const Hero: React.FC = () => {
@@ -10,43 +9,40 @@ export const Hero: React.FC = () => {
   const data = timelineData[era];
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center py-20 px-6 sm:px-12 md:px-24 overflow-hidden">
-      {/* Background Era Text Decoration */}
-      <motion.div 
-        key={`hero-bg-${era}`}
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ 
-          opacity: 0.015, 
-          y: 0 
-        }}
-        transition={{ duration: 1.5 }}
-        className="absolute bottom-10 left-10 pointer-events-none select-none text-[15vw] font-black uppercase whitespace-nowrap z-0 font-heading line-height-1 leading-none"
-      >
-        {data.label}
-      </motion.div>
-
+    <section className="relative flex min-h-screen items-center overflow-hidden px-6 py-24 sm:px-12 sm:py-28 md:px-24 lg:py-32">
       {/* Atmospheric Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {era === '1800s' && (
-          <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-accent/10 blur-[100px] rounded-full animate-pulse" />
+          <div className="absolute top-1/4 right-1/4 h-64 w-64 rounded-full bg-accent/10 blur-[100px] animate-pulse" />
         )}
         {era === 'future' && (
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-quantum/10 blur-[120px] rounded-full animate-pulse" />
+          <div className="absolute bottom-1/4 left-1/4 h-96 w-96 rounded-full bg-quantum/10 blur-[120px] animate-pulse" />
         )}
       </div>
 
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
-        
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-y-14 lg:grid-cols-2 lg:gap-x-14">
         {/* Text Content */}
-        <div className="order-2 lg:order-1 flex flex-col justify-center">
+        <div className="order-2 flex flex-col justify-center lg:order-1">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-primary/60 sm:text-xs"
+          >
+            <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_14px_var(--color-accent)]" />
+            <span className="font-primary">{data.name}</span>
+          </motion.div>
+
           <motion.h1
             key={`title-${era}`}
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, type: "spring" }}
+            transition={{ duration: 0.8, type: 'spring' }}
             className={cn(
-               "text-6xl md:text-8xl lg:text-[7vw] xl:text-[6.5vw] font-heading mb-4 leading-[0.85] tracking-tighter shrink-0 lg:max-w-[48%]",
-               (era === '1900s' || era === 'future') && "glitch-text text-[6vw] xl:text-[5.5vw]"
+              'mt-4 text-[clamp(3.75rem,8.2vw,6.75rem)] font-modern font-semibold leading-[0.92] tracking-[-0.045em] text-primary',
+              era === '1900s' && 'glitch-text text-[clamp(3.4rem,7.7vw,6.2rem)]',
+              era === 'future' && 'text-[clamp(3.5rem,7.9vw,6.4rem)]',
+              'lg:whitespace-nowrap'
             )}
             data-text={data.hero.title}
           >
@@ -57,37 +53,32 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col gap-6"
+            className="mt-8 flex max-w-xl flex-col gap-6"
           >
-            <div className="flex items-center gap-4">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: 48 }}
-                className="h-[2px] bg-accent" 
-              />
-              <div className="flex flex-col">
-                <p className="text-2xl md:text-4xl text-secondary font-primary italic opacity-90 uppercase tracking-tighter">
+            <div className="space-y-4">
+              <p className="max-w-[18ch] text-2xl uppercase tracking-[-0.04em] text-secondary opacity-90 md:text-[2.35rem] md:leading-[1.02]">
+                <span className={cn('font-primary italic', era === 'present' && 'not-italic')}>
                   {data.hero.role}
-                </p>
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                  <p className="text-xs md:text-sm text-primary/60 font-retro tracking-[0.2em] uppercase">
-                    Full-Stack • UX Researcher
-                  </p>
-                </div>
+                </span>
+              </p>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs uppercase tracking-[0.22em] text-primary/60 md:text-sm">
+                <div className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+                <p className="font-retro">Full-Stack Developer</p>
+                <span className="hidden text-primary/30 md:inline">/</span>
+                <p className="font-retro text-primary/55 md:whitespace-nowrap">UX Researcher</p>
               </div>
             </div>
 
-            <a href="#contact" className="w-fit pointer-events-auto">
-              <motion.button 
+            <a href="#contact" className="pointer-events-auto w-fit">
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={cn(
-                  "px-10 py-4 font-retro text-[10px] md:text-xs uppercase tracking-[0.3em] mt-4 transition-all duration-300 relative group overflow-hidden hide-cursor-on-desktop",
-                  era === '1800s' && "border-2 border-accent text-accent hover:bg-accent/10 shadow-[inner_0_0_10px_rgba(251,191,36,0.2)]",
-                  era === '1900s' && "bg-primary text-background border-2 border-primary shadow-[6px_6px_0_var(--color-accent)] hover:shadow-[10px_10px_0_var(--color-alt)]",
-                  era === 'present' && "bg-accent text-white hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] rounded-full",
-                  era === 'future' && "bg-accent/10 text-accent clip-path-polygon border border-accent/40 hover:border-accent hover:bg-accent/20 hover:shadow-[0_0_25px_var(--color-accent)]"
+                  'relative mt-4 overflow-hidden px-10 py-4 font-retro text-[10px] uppercase tracking-[0.3em] transition-all duration-300 group hide-cursor-on-desktop md:text-xs',
+                  era === '1800s' && 'border-2 border-accent text-accent hover:bg-accent/10 shadow-[inner_0_0_10px_rgba(251,191,36,0.2)]',
+                  era === '1900s' && 'border-2 border-primary bg-primary text-background shadow-[6px_6px_0_var(--color-accent)] hover:shadow-[10px_10px_0_var(--color-alt)]',
+                  era === 'present' && 'rounded-full bg-accent text-white hover:shadow-[0_0_30px_rgba(99,102,241,0.4)]',
+                  era === 'future' && 'clip-path-polygon border border-accent/40 bg-accent/10 text-accent hover:border-accent hover:bg-accent/20 hover:shadow-[0_0_25px_var(--color-accent)]'
                 )}
               >
                 {data.uiStrings.contactButton}
@@ -97,32 +88,31 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* User Portrait & 3D Core */}
-        <div className="order-1 lg:order-2 relative flex justify-center items-center lg:justify-end lg:ml-auto">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: 50 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ duration: 1 }}
-              className="relative w-full max-w-[320px] xl:max-w-[440px] aspect-square"
+        <div className="order-1 relative flex items-center justify-center lg:order-2 lg:ml-auto lg:justify-end">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, x: 50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1 }}
+            className="relative aspect-square w-full max-w-[320px] xl:max-w-[440px]"
+          >
+            {/* The Photo */}
+            <div
+              className={cn(
+                'relative z-10 h-full w-full overflow-hidden border-2 transition-all duration-1000',
+                era === '1800s' && 'rounded-none border-accent/40 sepia-[0.3] contrast-125',
+                era === '1900s' && 'rounded-none border-white/20 grayscale-[0.5] brightness-110 shadow-[8px_8px_0_var(--color-accent)]',
+                era === 'present' && 'rounded-3xl border-white/10 backdrop-blur-sm',
+                era === 'future' && 'clip-path-polygon rounded-none border-accent/30 brightness-125 hue-rotate-15'
+              )}
             >
-              {/* The Photo */}
-              <div className={cn(
-                "relative w-full h-full overflow-hidden border-2 transition-all duration-1000 z-10",
-                era === '1800s' && "border-accent/40 rounded-none sepia-[0.3] contrast-125",
-                era === '1900s' && "border-white/20 rounded-none grayscale-[0.5] brightness-110 shadow-[8px_8px_0_var(--color-accent)]",
-                era === 'present' && "border-white/10 rounded-3xl backdrop-blur-sm",
-                era === 'future' && "border-accent/30 rounded-none clip-path-polygon brightness-125 hue-rotate-15"
-              )}>
-                <img 
-                  src={data.hero.image} 
-                  alt={data.hero.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-
-            </motion.div>
+              <img
+                src={data.hero.image}
+                alt={data.hero.title}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </motion.div>
         </div>
-
       </div>
     </section>
   );

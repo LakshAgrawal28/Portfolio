@@ -9,26 +9,18 @@ export const era1800s: EraData = {
     role: "The Arcane Archivist",
     image: "/assets/photos/IMG_20231227_155735_827.jpg",
   },
-  journey: {
-    bio: "An apprentice of the NSUT Academy of Mystical Engineering (est. 1824). I specialize in the transcription of human intent into kinetic energy, managing a vast library of arcane scrolls while maintaining a purity of 8.9 CGPA.",
-    milestones: [
-      { year: "1823", title: "Apprenticeship at NSUT", description: "Commenced studies in the Alchemy of Logic and Mathematical Runes." },
-      { year: "1826", title: "The Leviosa Talisman", description: "First successful demonstration of non-contact kinetic manipulation." }
-    ]
-  },
   skills: [
-    { category: "Arcane Runes", items: ["Celestial C++", "Logical Alchemy", "Pythian Scripts"] },
-    { category: "Enchanted Scrolls", items: ["React Summoning", "CSS Illusions", "Ghost-Node"] }
+    { category: "Enchanted Scrolls", items: ["React Summoning", "Next.js Tomes", "Tailwind Illusions", "Celestial Canvas", "Motion Alchemy"] },
+    { category: "Arcane Infrastructure", items: ["Ghost-Node", "Express Runes", "Mongo-Vault", "PostgreSQL Tomes", "C++ Logic"] },
+    { category: "Visionary Oracles", items: ["Pythian Scripts", "OpenCV Sight", "Media-Prophecy", "Tensor-Sorcery"] }
   ],
   uiStrings: {
     contactButton: "Send a Raven",
     workTitle: "Arcane Artifacts",
-    journeyTitle: "The Ancient Record",
     skillsTitle: "Mystical Disciplines",
     viewProject: "Scry Artifact",
     nav: {
       work: "Artifacts",
-      about: "Chronicle",
       skills: "Runes",
       contact: "Raven"
     },

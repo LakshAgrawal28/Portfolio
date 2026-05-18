@@ -1,0 +1,20 @@
+B.Tech. in Computer Science &
+Artificial Intelligence2024-2028Netaji Subhas University
+of Technology (NSUT)CGPA: 9.00
+HSC (Class XII) 2024 Seth Hirachand Mutha College 90.83%
+SSC (Class X) 2022 Shri Mahavir Jain English School 92.80%LAKSH AGRAWAL
+Delhi, India | laksh.agrawal.ug24@nsut.ac.in | +91 88288 07111
+GitHub: github.com/LakshAgrawal28 
+LeetCode: leetcode.com/u/LakshAgrawal
+LinkedIn: linkedin.com/in/laksh-agrawal-873598324
+FULL STACK DEVELOPER
+EDUCATION
+TECHNICAL SKILLS
+PROJECTSLanguages: C++, Java, Python, JavaScript, HTML, CSS
+Frameworks, Tools & Libraries: React.js, Node.js, Next.js, Express.js, ReactBits, Git 
+Core CS Concepts: Data Structures & Algorithms, Object-Oriented Programming (OOP), OS, DBMS
+Web Technologies: Frontend & Backend Web Development, REST APIs
+Leviosa, Gesture-Controlled 3D Web Application
+Live Project: https://leviosa-by-laksh.vercel.app/
+Technologies: Three.js, MediaPipe Hands, JavaScript, WebGL, WebRTC, Git
+Built a gesture-controlled 3D web app using Th

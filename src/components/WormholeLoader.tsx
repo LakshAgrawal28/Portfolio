@@ -1,166 +1,129 @@
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import { motion } from 'framer-motion';
+import React, { useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface WormholeLoaderProps {
   onComplete: () => void;
 }
 
+const eras = ['1800s', '1900s', 'PRESENT', 'FUTURE'];
+
 export const WormholeLoader: React.FC<WormholeLoaderProps> = ({ onComplete }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
+  const [progress, setProgress] = useState(0);
+  const [isFinishing, setIsFinishing] = useState(false);
+
+  const currentEra = useMemo(() => {
+    const scaledIndex = Math.floor((progress / 100) * eras.length);
+    return Math.min(scaledIndex, eras.length - 1);
+  }, [progress]);
+
   useEffect(() => {
-    if (!containerRef.current) return;
-    
-    const scene = new THREE.Scene();
-    // Add a very slight fog for depth
-    scene.fog = new THREE.FogExp2(0x000000, 0.05);
+    const totalDuration = 2600;
+    const settleDuration = 320;
+    let frameId = 0;
+    let finishTimeout: number | undefined;
+    const startTime = performance.now();
 
-    const camera = new THREE.PerspectiveCamera(85, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 10;
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const rawProgress = Math.min(elapsed / totalDuration, 1);
+      const easedProgress = 1 - Math.pow(1 - rawProgress, 3);
+      const nextProgress = Math.round(easedProgress * 100);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+      setProgress((prev) => (prev === nextProgress ? prev : nextProgress));
 
-    // Create points for the tube path
-    const points = [];
-    for (let i = 0; i < 20; i += 1) {
-      points.push(new THREE.Vector3(
-        Math.sin(i * 0.2) * 5,
-        Math.cos(i * 0.2) * 5,
-        -i * 10
-      ));
-    }
-    
-    const path = new THREE.CatmullRomCurve3(points);
-    const geometry = new THREE.TubeGeometry(path, 100, 3, 24, false);
-    
-    // Wireframe material for the grid look
-    const material = new THREE.MeshBasicMaterial({ 
-      color: 0xffffff,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.15,
-      side: THREE.BackSide
-    });
-    
-    const tube = new THREE.Mesh(geometry, material);
-    scene.add(tube);
+      if (rawProgress < 1) {
+        frameId = window.requestAnimationFrame(animate);
+        return;
+      }
 
-    // Floating particles
-    const particleGeometry = new THREE.BufferGeometry();
-    const particleCount = 1000;
-    const posArray = new Float32Array(particleCount * 3);
-    for(let i = 0; i < particleCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 20; // Spread wide
-    }
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    
-    const particleMaterial = new THREE.PointsMaterial({
-      size: 0.05,
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending
-    });
-    const particleMesh = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particleMesh);
-
-    let progress = 0;
-    let animationId: number;
-    let speed = 0.002;
-    
-    const animate = () => {
-      progress += speed;
-      if (progress > 1) progress = 0;
-      
-      // Move camera along path
-      const camPos = path.getPointAt(progress);
-      const camTarget = path.getPointAt((progress + 0.01) % 1);
-      
-      camera.position.copy(camPos);
-      camera.lookAt(camTarget);
-      
-      // Rotate particles slowly
-      particleMesh.rotation.z -= 0.001;
-      
-      renderer.render(scene, camera);
-      animationId = requestAnimationFrame(animate);
+      setProgress(100);
+      setIsFinishing(true);
+      finishTimeout = window.setTimeout(onComplete, settleDuration);
     };
-    
-    animate();
 
-    const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener('resize', handleResize);
-
-    // Accelerate the warp factor over time
-    const accelInterval = setInterval(() => {
-        speed += 0.0005;
-    }, 500);
-
-    // Simulate load completion after 4 seconds
-    const timeout = setTimeout(() => {
-      onComplete();
-    }, 4000);
-
-    const container = containerRef.current;
+    frameId = window.requestAnimationFrame(animate);
 
     return () => {
-      cancelAnimationFrame(animationId);
-      clearInterval(accelInterval);
-      clearTimeout(timeout);
-      window.removeEventListener('resize', handleResize);
-      renderer.dispose();
-      geometry.dispose();
-      material.dispose();
-      particleGeometry.dispose();
-      particleMaterial.dispose();
-      if (container?.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
+      window.cancelAnimationFrame(frameId);
+      if (finishTimeout) {
+        window.clearTimeout(finishTimeout);
       }
     };
   }, [onComplete]);
 
   return (
     <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, ease: "easeInOut" }}
-      className="fixed inset-0 z-[100] bg-black overflow-hidden flex flex-col items-center justify-center"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-between overflow-hidden bg-black px-8 py-12 text-white md:py-24"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 1.03, filter: 'blur(14px)' }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div ref={containerRef} className="absolute inset-0 pointer-events-none" />
-      
-      {/* Overlay UI */}
-      <div className="relative z-10 flex flex-col items-center gap-8 mt-40">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          className="font-heading text-4xl md:text-6xl tracking-[0.3em] uppercase text-white mix-blend-difference"
-        >
-          Initializing
+      <div className="flex w-full items-start justify-between font-primary text-xs uppercase tracking-widest text-white/50 md:text-sm">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+          Laksh Agrawal
         </motion.div>
-        
-        <div className="w-64 h-[1px] bg-white/20 relative overflow-hidden">
-          <motion.div 
-            initial={{ left: '-100%' }}
-            animate={{ left: '100%' }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-white to-transparent"
-          />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="tabular-nums"
+        >
+          {progress}%
+        </motion.div>
+      </div>
+
+      {/* Ambient background rings */}
+      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-20">
+        <motion.div
+          animate={{ scale: isFinishing ? 1.15 : [1, 1.1, 1], rotate: 360 }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+          className="h-[40vw] w-[40vw] min-h-[300px] min-w-[300px] max-h-[500px] max-w-[500px] rounded-full border border-white/20 border-dashed"
+        />
+        <motion.div
+          animate={{ scale: isFinishing ? 1.05 : [1.1, 1, 1.1], rotate: -360 }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+          className="absolute h-[55vw] w-[55vw] min-h-[400px] min-w-[400px] max-h-[650px] max-w-[650px] rounded-full border border-accent/30 border-dotted"
+        />
+        <motion.div
+          animate={{ scale: isFinishing ? 1.2 : 1, opacity: isFinishing ? 0.5 : 1 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute h-[30vw] w-[30vw] min-h-[200px] min-w-[200px] max-h-[400px] max-w-[400px] rounded-full bg-accent/20 blur-[80px]"
+        />
+      </div>
+
+      <div className="z-10 flex w-full flex-1 flex-col items-center justify-center">
+        <div className="relative flex h-24 w-full items-center justify-center overflow-hidden md:h-32">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentEra}
+              initial={{ y: 44, opacity: 0, scale: 0.94, filter: 'blur(10px)' }}
+              animate={{ y: 0, opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ y: -44, opacity: 0, scale: 1.04, filter: 'blur(10px)' }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute font-heading text-5xl font-light uppercase tracking-[0.2em] drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] md:text-8xl"
+            >
+              {eras[currentEra]}
+            </motion.div>
+          </AnimatePresence>
         </div>
-        
-        <div className="text-white/50 font-primary text-xs uppercase tracking-widest flex items-center gap-4">
-          <span>Temporal Alignment</span>
-          <span className="w-1 h-1 bg-white animate-pulse" />
-          <span>Synchronizing</span>
-        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: isFinishing ? 0.9 : 0.55, y: 0 }}
+          transition={{ duration: 0.35 }}
+          className="mt-6 text-[10px] uppercase tracking-[0.4em] text-white/60 md:text-xs"
+        >
+          Traversing the archive
+        </motion.p>
+      </div>
+
+      <div className="relative mx-auto h-[2px] w-full max-w-4xl overflow-hidden rounded-full bg-white/10">
+        <motion.div
+          className="absolute inset-y-0 left-0 bg-white"
+          initial={{ width: '0%' }}
+          animate={{ width: `${progress}%` }}
+          transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.2 }}
+        />
       </div>
     </motion.div>
   );

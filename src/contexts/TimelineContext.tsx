@@ -6,6 +6,8 @@ interface TimelineContextType {
   era: Era;
   setEra: (era: Era) => void;
   isTransitioning: boolean;
+  prevEra: Era;
+  nextEra: Era | null;
   triggerJump: (targetEra: Era) => void;
 }
 
@@ -19,6 +21,8 @@ export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
   
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [prevEra, setPrevEra] = useState<Era>(era);
+  const [nextEra, setNextEra] = useState<Era | null>(null);
 
   // Sync to text attributes/classes on the document root for CSS variables
   useEffect(() => {
@@ -29,16 +33,23 @@ export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const triggerJump = (targetEra: Era) => {
     if (targetEra === era || isTransitioning) return;
     
+    setPrevEra(era);
+    setNextEra(targetEra);
     setIsTransitioning(true);
-    // Let animation play, then switch
+    
+    // Let entrance animation play for 600ms (covering the screen), then switch
     setTimeout(() => {
       setEraState(targetEra);
-      setTimeout(() => setIsTransitioning(false), 800); // 800ms to finish entrance animation
-    }, 600); // 600ms mid-point of jump
+      // Let exit animation stay/play for another 800ms before unmounting
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setNextEra(null);
+      }, 800);
+    }, 600);
   };
 
   return (
-    <TimelineContext.Provider value={{ era, setEra: setEraState, isTransitioning, triggerJump }}>
+    <TimelineContext.Provider value={{ era, setEra: setEraState, isTransitioning, prevEra, nextEra, triggerJump }}>
       {children}
     </TimelineContext.Provider>
   );

@@ -1,17 +1,18 @@
-import React from 'react';
-import { motion, useScroll } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, useScroll, AnimatePresence } from 'framer-motion';
 import { useTimeline } from '../contexts/TimelineContext';
+import { Info } from 'lucide-react';
 import type { Era } from '../contexts/TimelineContext';
 import { timelineData } from '../data/timelineData';
 
 export const Navigation: React.FC = () => {
   const { era, triggerJump } = useTimeline();
   const { scrollYProgress } = useScroll();
+  const [showInfo, setShowInfo] = useState(false);
   const data = timelineData[era];
   
   const navItems = [
     { key: 'work', label: data.uiStrings.nav.work, href: '#work' },
-    { key: 'about', label: data.uiStrings.nav.about, href: '#about' },
     { key: 'skills', label: data.uiStrings.nav.skills, href: '#skills' },
     { key: 'contact', label: data.uiStrings.nav.contact, href: '#contact' }
   ];
@@ -19,7 +20,7 @@ export const Navigation: React.FC = () => {
   const eras: Era[] = ['1800s', '1900s', 'present', 'future'];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-12 py-6 flex justify-between items-center bg-transparent pointer-events-none">
+    <nav className="fixed top-[32px] left-0 right-0 z-50 px-6 sm:px-12 py-6 flex justify-between items-center bg-transparent pointer-events-none transition-all duration-300">
       {/* Background Glass Plate */}
       <div className="absolute inset-x-0 top-0 h-full glass backdrop-blur-md opacity-90 z-0 border-b border-border/10 pointer-events-auto overflow-hidden">
         {/* Scroll Progress Bar */}
@@ -36,56 +37,94 @@ export const Navigation: React.FC = () => {
         animate={{ opacity: 1, x: 0 }}
         className="relative z-10 flex items-center gap-3 group cursor-default pointer-events-auto"
       >
-        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black transition-all duration-700
-          ${era === '1800s' ? 'bg-accent text-primary rotate-45' : 
-            era === '1900s' ? 'bg-accent text-primary rounded-none shadow-[4px_4px_0_var(--color-alt)]' : 
-            era === 'present' ? 'bg-accent text-white rounded-full' : 
-            'bg-accent text-primary animate-pulse-glow'}
+        <div className={`w-8 h-8 overflow-hidden rounded-lg flex items-center justify-center transition-all duration-700
+          ${era === '1800s' ? 'rotate-45 sepia contrast-125' : 
+            era === '1900s' ? 'rounded-none shadow-[4px_4px_0_var(--color-alt)] grayscale' : 
+            era === 'present' ? 'rounded-xl' : 
+            'animate-pulse-glow hue-rotate-15'}
         `}>
-          L
+          <img src="/logo.jpg" alt="LA Logo" className="w-full h-full object-cover" />
         </div>
-        <span className={`font-heading text-xl tracking-tighter transition-all duration-700
+        <span 
+          style={{ fontFamily: "'Outfit', sans-serif" }}
+          className={`text-xl font-bold tracking-tight transition-all duration-700
           ${era === '1800s' ? 'arcane-glow parchment-text' : 
             era === '1900s' ? 'text-accent' : 
             era === 'present' ? 'text-primary' : 
             'quantum-shimmer'}
         `}>
-          LAKSH
+          Laksh Agrawal
         </span>
       </motion.div>
 
       {/* Era Switcher Hub */}
-      <div className="z-10 hidden lg:flex bg-black/40 p-1 rounded-full border border-white/5 backdrop-blur-xl pointer-events-auto">
-        {eras.map((e) => (
-          <motion.button
-            key={e}
-            onClick={() => triggerJump(e)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`px-4 py-1.5 rounded-full text-[10px] font-retro tracking-widest transition-all duration-500
-              ${era === e ? 'bg-white text-black' : 'text-white/40 hover:text-white'}
-            `}
-          >
-            {timelineData[e].label}
-          </motion.button>
-        ))}
-      </div>
+      <div className="z-20 fixed bottom-6 left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 flex flex-col items-center pointer-events-auto">
+        {/* The Dock */}
+        <div className="flex items-center gap-1 rounded-full border border-white/15 bg-black/80 p-1.5 backdrop-blur-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+          {eras.map((e) => (
+            <motion.button
+              key={e}
+              onClick={() => triggerJump(e)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-3 sm:px-4 py-1.5 rounded-full text-[10px] font-retro tracking-widest transition-all duration-500
+                ${era === e ? 'bg-white text-black font-bold shadow-[0_0_15px_rgba(255,255,255,0.5)]' : 'text-white/40 hover:text-white'}
+              `}
+            >
+              {timelineData[e].label}
+            </motion.button>
+          ))}
 
-      {/* Stability Indicator */}
-      <div className="hidden xl:flex flex-col items-end opacity-40 group hover:opacity-100 transition-opacity z-10 mr-4 pointer-events-auto">
-        <span className="text-[8px] font-retro uppercase tracking-[0.2em] text-secondary">Stability Control</span>
-        <div className="flex items-center gap-2">
-          <motion.div 
-            animate={{ opacity: [1, 0.4, 1], scale: [1, 1.2, 1] }}
-            transition={{ duration: 0.15, repeat: Infinity, repeatType: "mirror" }}
-            className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]"
-          />
-          <span className="font-retro text-[10px] tracking-tighter">98.4%</span>
+          <div className="w-[1px] h-4 bg-white/20 mx-1" />
+
+          <div
+            className="relative"
+            onMouseEnter={() => setShowInfo(true)}
+            onMouseLeave={() => setShowInfo(false)}
+          >
+            <AnimatePresence>
+              {showInfo && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="pointer-events-none absolute bottom-[calc(100%+14px)] right-0 z-50 w-[280px] rounded-2xl border border-white/10 bg-black/90 p-4 text-left font-primary shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:w-80 lg:bottom-auto lg:left-1/2 lg:right-auto lg:top-[calc(100%+14px)] lg:-translate-x-1/2"
+                >
+                  <div className="absolute inset-0 rounded-2xl bg-accent/6 pointer-events-none" />
+                  <div className="relative z-10">
+                    <div className="mb-2 flex items-center gap-2 text-sm font-heading text-accent">
+                      <Info size={15} strokeWidth={2.2} />
+                      Temporal Dimensions
+                    </div>
+                    <p className="text-sm leading-relaxed text-secondary">
+                      This portfolio exists across 4 distinct timelines. Select an era to shift the fabric of time and explore a new visual dimension.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <motion.button
+              onClick={() => setShowInfo((prev) => !prev)}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-300 sm:h-10 sm:w-10
+                ${showInfo
+                  ? 'border-accent/45 bg-accent/12 text-accent shadow-[0_0_18px_rgba(99,102,241,0.28)]'
+                  : 'border-white/12 bg-white/[0.04] text-white/60 hover:border-white/25 hover:bg-white/[0.08] hover:text-white'}
+              `}
+              aria-label="Timeline Information"
+              aria-expanded={showInfo}
+            >
+              <Info size={15} strokeWidth={2.2} />
+            </motion.button>
+          </div>
         </div>
       </div>
 
       {/* Nav Links */}
-      <ul className="relative z-10 flex items-center gap-6 pointer-events-auto">
+      <ul className="relative z-10 hidden items-center gap-6 pointer-events-auto lg:flex">
         {navItems.map((item, i) => (
           <motion.li 
             key={item.key}
@@ -109,25 +148,7 @@ export const Navigation: React.FC = () => {
             </a>
           </motion.li>
         ))}
-        <motion.li
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className={`text-[10px] md:text-xs font-retro uppercase tracking-widest transition-all duration-300 relative group/link px-3 py-1.5 border rounded-sm ml-2 hide-cursor-on-desktop
-              ${era === '1800s' ? 'border-accent text-accent hover:bg-accent hover:text-[#2d1b10]' : 
-                era === '1900s' ? 'border-primary text-primary hover:bg-primary hover:text-background border-2 shadow-[2px_2px_0_var(--color-accent)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0_var(--color-accent)]' : 
-                era === 'present' ? 'border-accent/40 text-accent hover:bg-accent/10 rounded-full' : 
-                'border-accent/50 text-accent hover:bg-accent/20 clip-path-polygon hover:shadow-[0_0_15px_var(--color-accent)]'}
-            `}
-          >
-            Download CV
-          </a>
-        </motion.li>
+
       </ul>
     </nav>
   );

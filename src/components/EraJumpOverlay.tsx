@@ -1,84 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTimeline } from '../contexts/TimelineContext';
 
 export const EraJumpOverlay: React.FC = () => {
-  const { era } = useTimeline();
-  const [show, setShow] = useState(false);
-  const [prevEra, setPrevEra] = useState(era);
-
-  useEffect(() => {
-    if (era !== prevEra) {
-      setTimeout(() => setShow(true), 0);
-      const timer = setTimeout(() => {
-        setShow(false);
-        setPrevEra(era);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [era, prevEra]);
-
-  const [lines, setLines] = React.useState<Array<{id: number, top: string, delay: number}>>([]);
-
-  React.useEffect(() => {
-    setLines(Array.from({ length: 10 }).map((_, i) => ({
-      id: i,
-      top: `${Math.random() * 100}%`,
-      delay: Math.random() * 0.5
-    })));
-  }, []);
+  const { isTransitioning, prevEra, nextEra } = useTimeline();
 
   return (
     <AnimatePresence>
-      {show && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
-        >
-          {/* Glitch Slices */}
-          <div className="absolute inset-0 bg-black" />
-          
+      {isTransitioning && nextEra && (
+        <div className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="flex flex-col items-center gap-4 relative z-10"
+            className="absolute inset-0 flex flex-col items-center justify-center bg-black overflow-hidden"
+            initial={{ clipPath: "circle(0% at 50% 50%)" }}
+            animate={{ clipPath: "circle(150% at 50% 50%)" }}
+            exit={{ clipPath: "circle(0% at 50% 50%)" }}
+            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
           >
-            <div className="text-white font-retro text-2xl tracking-[0.5em] uppercase">
-              Shift Detected
+            {/* Ambient Background Glow */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-accent)_0%,transparent_60%)] opacity-10" />
+
+            {/* Spinning Rings */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+              <motion.div animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} className="absolute w-[30vw] min-w-[300px] aspect-square border-[1px] border-accent rounded-full border-dashed" />
+              <motion.div animate={{ rotate: -360 }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }} className="absolute w-[45vw] min-w-[450px] aspect-square border-[2px] border-white/20 rounded-full" />
+              <motion.div animate={{ rotate: 360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute w-[60vw] min-w-[600px] aspect-square border-[1px] border-accent/40 rounded-full border-dotted" />
             </div>
-            <div className="flex items-center gap-6">
-              <span className="text-secondary/50 font-retro text-sm uppercase">{prevEra}</span>
+
+            {/* Text Content */}
+            <div className="relative z-10 flex flex-col items-center text-white">
               <motion.div 
-                animate={{ x: [0, 10, 0] }} 
-                transition={{ duration: 0.5, repeat: Infinity }}
-                className="text-accent"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-xs md:text-sm font-primary tracking-[0.5em] uppercase text-accent mb-6"
               >
-                &gt;&gt;&gt;
+                Temporal Shift Sequence
               </motion.div>
-              <span className="text-accent font-retro text-sm uppercase">{era}</span>
+
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.25 }}
+                className="flex items-center gap-6 md:gap-12 font-heading text-4xl md:text-7xl tracking-widest uppercase"
+              >
+                <span className="opacity-40 blur-[2px]">{prevEra}</span>
+                <motion.div 
+                  animate={{ scale: [1, 1.5, 1], rotate: [0, 90, 180] }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-accent text-3xl md:text-5xl"
+                >
+                  ✧
+                </motion.div>
+                <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">{nextEra}</span>
+              </motion.div>
             </div>
           </motion.div>
-
-          {/* Random Glitch Lines */}
-          {lines.map((line) => (
-            <motion.div
-              key={line.id}
-              className="absolute bg-white/20 h-[1px] w-full"
-              style={{ top: line.top }}
-              animate={{ 
-                x: [-100, 100],
-                opacity: [0, 1, 0]
-              }}
-              transition={{ 
-                duration: 0.2, 
-                repeat: Infinity,
-                delay: line.delay
-              }}
-            />
-          ))}
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
