@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 
 export type Era = '1800s' | '1900s' | 'present' | 'future';
 export type TransitionSpeed = 'slow' | 'fast';
@@ -36,6 +36,8 @@ export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return saved === 'fast' ? 'fast' : 'slow';
   });
 
+  const timersRef = useRef<number[]>([]);
+
   // Sync to text attributes/classes on the document root for CSS variables
   useEffect(() => {
     document.documentElement.dataset.theme = era;
@@ -45,6 +47,13 @@ export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     localStorage.setItem('chronos-transition-speed', transitionSpeed);
   }, [transitionSpeed]);
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach(timer => window.clearTimeout(timer));
+      timersRef.current = [];
+    };
+  }, []);
 
   const setTransitionSpeed = (speed: TransitionSpeed) => {
     if (!isTransitioning) {
@@ -60,18 +69,24 @@ export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setNextEra(targetEra);
     setIsTransitioning(true);
     
+    timersRef.current.forEach(timer => window.clearTimeout(timer));
+    timersRef.current = [];
+
     // Swap the era only after the curtain has fully covered the page.
-    setTimeout(() => {
+    const coverTimer = window.setTimeout(() => {
       setEraState(targetEra);
 
-      setTimeout(() => {
+      const holdTimer = window.setTimeout(() => {
         setIsTransitioning(false);
 
-        setTimeout(() => {
+        const exitClearTimer = window.setTimeout(() => {
           setNextEra(null);
         }, timing.exitClear);
+        timersRef.current.push(exitClearTimer);
       }, timing.hold);
+      timersRef.current.push(holdTimer);
     }, timing.cover);
+    timersRef.current.push(coverTimer);
   };
 
   return (

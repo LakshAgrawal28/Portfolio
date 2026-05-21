@@ -34,7 +34,6 @@ export const EraJumpOverlay: React.FC = () => {
 
   useEffect(() => {
     if (!isTransitioning) {
-      setLabelPhase(null);
       return;
     }
 
@@ -49,6 +48,7 @@ export const EraJumpOverlay: React.FC = () => {
       window.clearTimeout(gapTimer);
       window.clearTimeout(destinationTimer);
       window.clearTimeout(hideTimer);
+      setLabelPhase(null);
     };
   }, [isTransitioning, transitionSpeed]);
 
