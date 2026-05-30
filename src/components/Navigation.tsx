@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { motion, useScroll, AnimatePresence } from 'framer-motion';
 import { useTimeline } from '../contexts/TimelineContext';
-import { Gauge, Info, Sparkles } from 'lucide-react';
+import { Gauge, Info } from 'lucide-react';
 import type { Era } from '../contexts/TimelineContext';
 import { timelineData } from '../data/timelineData';
 
-interface NavigationProps {
-  onTriggerLoader?: () => void;
-}
-
-export const Navigation: React.FC<NavigationProps> = ({ onTriggerLoader }) => {
+export const Navigation: React.FC = () => {
   const { era, triggerJump, transitionSpeed, setTransitionSpeed, isTransitioning } = useTimeline();
   const { scrollYProgress } = useScroll();
   const [showInfo, setShowInfo] = useState(false);
@@ -104,24 +100,6 @@ export const Navigation: React.FC<NavigationProps> = ({ onTriggerLoader }) => {
           >
             <Gauge size={14} strokeWidth={2.2} />
             <span className="hidden sm:inline">{transitionSpeed}</span>
-          </motion.button>
-
-          <div className="w-[1px] h-4 bg-white/20 mx-1" />
-
-          <motion.button
-            onClick={onTriggerLoader}
-            whileHover={{ scale: isTransitioning ? 1 : 1.04 }}
-            whileTap={{ scale: isTransitioning ? 1 : 0.96 }}
-            disabled={isTransitioning}
-            className={`flex h-9 w-9 items-center justify-center gap-1.5 rounded-full border font-retro text-[9px] uppercase tracking-widest transition-all duration-300 sm:h-10 sm:w-auto sm:px-3
-              border-white/12 bg-white/[0.04] text-white/60 hover:border-accent/45 hover:bg-accent/10 hover:text-accent
-              ${isTransitioning ? 'opacity-50' : ''}
-            `}
-            aria-label="Replay intro animation"
-            title="Replay wormhole intro"
-          >
-            <Sparkles size={14} strokeWidth={2.2} />
-            <span className="hidden sm:inline">Intro</span>
           </motion.button>
 
           <div className="w-[1px] h-4 bg-white/20 mx-1" />

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
@@ -10,12 +10,7 @@ import { EraJumpOverlay } from './components/EraJumpOverlay';
 import { WormholeLoader } from './components/WormholeLoader';
 
 export const AppContent: React.FC = () => {
-  // Default: false — site loads instantly. The loader can be replayed via the nav button.
-  const [loading, setLoading] = useState(false);
-
-  const triggerLoader = useCallback(() => {
-    setLoading(true);
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   return (
     <>
@@ -33,7 +28,7 @@ export const AppContent: React.FC = () => {
           >
             <div className="texture-overlay" />
             <EraJumpOverlay />
-            <Navigation onTriggerLoader={triggerLoader} />
+            <Navigation />
             <Hero />
             <Skills />
             <Projects />
