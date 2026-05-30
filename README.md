@@ -1,53 +1,52 @@
-# LoreJourney: A Temporal Portfolio Experience
+# LoreJourney — A Temporal Portfolio Experience
 
-![Cinematic Portfolio Preview](https://github.com/LakshAgrawal28/Portfolio/raw/main/app/public/assets/photos/20241111_154255(1).jpg)
+![Portfolio Preview](https://raw.githubusercontent.com/LakshAgrawal28/Portfolio/main/public/assets/photos/modern.jpg)
 
-**LoreJourney** is an immersive, high-fidelity portfolio platform designed to tell a story through time. It transcends the traditional "scroll-through" portfolio by offering a cinematic traversal of four distinct eras, each with its own bespoke design system, typography, and mood.
+**LoreJourney** is an immersive, high-fidelity portfolio built to tell a story through time. It goes beyond the typical scroll-through portfolio by offering a cinematic traversal of four distinct eras — each with its own bespoke design system, typography, animations, and mood.
 
 ---
 
-## ⏳ The Eras
+## ⏳ The Four Eras
 
-### 🏛️ The 1800s: The Classical Archive
-- **Aesthetic**: Aged parchment, serif typography, and ink-bleed effects.
-- **Experience**: A journey through the foundations of craft and tradition.
+### 🏛️ The 1800s — The Arcane Archive
+- **Aesthetic**: Deep purple mysticism, Pirata One serif type, arcane gold accents, parchment textures
+- **Experience**: An era of craft, tradition, and ancient wizardry
 
-### 📻 The 1900s: The Industrial Forge
-- **Aesthetic**: Brutalist layouts, grain textures, and typewriter-inspired elements.
-- **Experience**: Focusing on the rise of modernism and early engineering.
+### 📻 The 1900s — The Neon Arcade
+- **Aesthetic**: Terminal green on black, Press Start 2P pixel font, CRT scanline overlays, hot pink highlights
+- **Experience**: The digital rebel era — mainframes, dial-up, and early computing
 
-### 🏙️ The Present: The Modern Minimalist
-- **Aesthetic**: Sleek dark mode, vibrant glassmorphism, and fluid animations.
-- **Experience**: The current state of high-end web development and digital craft.
+### 🏙️ The Present — The Balanced Growth Era
+- **Aesthetic**: Dark glassmorphism, Outfit & Plus Jakarta Sans typography, indigo accents, fluid animations
+- **Experience**: Modern high-end web development and digital craft
 
-### 🚀 The Future: The Galactic Frontier
-- **Aesthetic**: Holographic UI, neon gradients, and 3D warp-speed transitions.
-- **Experience**: A speculative look at what lies beyond the digital horizon.
+### 🚀 The Future — The Alien Frontier
+- **Aesthetic**: Deep space cyan + violet, Orbitron typeface, holographic cyber grid, quantum shimmer effects
+- **Experience**: A speculative look at what lies beyond the digital horizon
 
 ---
 
 ## 🛠️ Technology Stack
 
-LoreJourney is built with a focus on performance, aesthetics, and smooth interactivity:
-
 - **Core**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- **Build Tool**: [Vite 6](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Build Tool**: [Vite 8](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/) & [Anime.js](https://animejs.com/)
-- **Visuals**: [Three.js](https://threejs.org/) for cinematic 3D effects
+- **3D / Visuals**: [Three.js](https://threejs.org/)
+- **Typography**: Google Fonts — Pirata One, Press Start 2P, Outfit, Syne, Plus Jakarta Sans, Orbitron, Space Grotesk
 
 ---
 
 ## 🧩 Architectural Highlights
 
-### 🚄 Timeline Engine
-A custom-built state management system that synchronizes era-specific assets, fonts, and logic on the fly during "Era Jumps".
+### ⏱ Timeline Engine
+A custom context-driven state system that synchronizes era-specific fonts, colors, animations, and data on the fly during "Era Jumps" — with configurable fast/slow transition speeds.
 
-### 🎢 Cinematic Transitions
-Uses sticky-image reveals and 3D perspective shifts to create a sense of deep spatial movement as the user navigates through time.
+### ✦ WormholeLoader
+A fully custom SVG orbital ring loader with era-aware particle effects, color morphing, and smooth cross-fade animations. Triggered on demand via the nav bar.
 
-### 📦 Dynamic Data Architecture
-Projects and life events are categorized into temporal datasets, ensuring data integrity while maintaining era-specific storytelling.
+### 📦 Temporal Data Architecture
+Projects and content are segmented into era-specific datasets — each project gets a modern description AND an era-themed lore variant rendered per timeline.
 
 ---
 
@@ -69,4 +68,4 @@ Projects and life events are categorized into temporal datasets, ensuring data i
 
 ---
 
-*Designed and Developed with ❤️ by [Laksh Agrawal](https://github.com/LakshAgrawal28)*
+*Designed and developed with ❤️ by [Laksh Agrawal](https://github.com/LakshAgrawal28)*
