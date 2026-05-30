@@ -39,10 +39,10 @@ export const Hero: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, type: 'spring' }}
             className={cn(
-              'mt-4 text-[clamp(3.75rem,8.2vw,6.75rem)] font-heading font-semibold leading-[0.92] tracking-[-0.045em] text-primary',
-              era === '1900s' && 'glitch-text block text-[clamp(3.4rem,7.7vw,6.2rem)]',
-              era === 'future' && 'text-[clamp(3.5rem,7.9vw,6.4rem)]',
-              'lg:whitespace-nowrap'
+              'mt-4 text-[clamp(3.75rem,8.2vw,6.75rem)] font-heading font-semibold leading-[0.92] tracking-[-0.045em] text-primary lg:whitespace-nowrap',
+              era === '1800s' && 'text-[clamp(4.25rem,9.2vw,7.75rem)]',
+              era === '1900s' && 'glitch-text block text-[clamp(2.25rem,4.8vw,3.9rem)] leading-[1.2] tracking-[0.02em]',
+              era === 'future' && 'font-black text-[clamp(3rem,6.5vw,5.5rem)] tracking-[-0.02em]'
             )}
             data-text={data.hero.title}
           >
