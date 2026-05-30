@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
             className={cn(
               'mt-4 text-[clamp(3.75rem,8.2vw,6.75rem)] font-heading font-semibold leading-[0.92] tracking-[-0.045em] text-primary lg:whitespace-nowrap',
               era === '1800s' && 'text-[clamp(4.25rem,9.2vw,7.75rem)]',
-              era === '1900s' && 'glitch-text block text-[clamp(2.25rem,4.8vw,3.9rem)] leading-[1.2] tracking-[0.02em]',
+              era === '1900s' && 'glitch-text block text-[clamp(1.8rem,4vw,3.2rem)] leading-[1.2] tracking-[0.02em]',
               era === 'future' && 'font-black text-[clamp(3rem,6.5vw,5.5rem)] tracking-[-0.02em]'
             )}
             data-text={data.hero.title}
