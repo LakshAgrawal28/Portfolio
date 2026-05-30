@@ -22,24 +22,22 @@ interface TimelineContextType {
 const TimelineContext = createContext<TimelineContextType | undefined>(undefined);
 
 export const TimelineProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Try to load from localStorage, default to 'present'
-  const [era, setEraState] = useState<Era>(() => {
-    const saved = localStorage.getItem('chronos-era') as Era;
-    return saved || 'present';
-  });
+  // Always start in the Modern era on load/reload
+  const [era, setEraState] = useState<Era>('present');
   
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [prevEra, setPrevEra] = useState<Era>(era);
   const [nextEra, setNextEra] = useState<Era | null>(null);
+  
+  // Default to fast transition speed as requested
   const [transitionSpeed, setTransitionSpeedState] = useState<TransitionSpeed>(() => {
     const saved = localStorage.getItem('chronos-transition-speed') as TransitionSpeed;
-    return saved === 'fast' ? 'fast' : 'slow';
+    return saved === 'slow' ? 'slow' : 'fast';
   });
 
   // Sync to text attributes/classes on the document root for CSS variables
   useEffect(() => {
     document.documentElement.dataset.theme = era;
-    localStorage.setItem('chronos-era', era);
   }, [era]);
 
   useEffect(() => {
